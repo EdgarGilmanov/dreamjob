@@ -22,27 +22,19 @@
 </head>
 <body>
 <div class="container pt-3">
-
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Вакансии
+                Новый кандитат.
             </div>
             <div class="card-body">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">Названия</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <% for (Post post : Store.instOf().findAllPosts()) { %>
-                    <tr>
-                        <td><%= post.getName() %></td>
-                    </tr>
-                    <% } %>
-                    </tbody>
-                </table>
+                <form>
+                    <div class="form-group">
+                        <label>Имя</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </form>
             </div>
         </div>
     </div>
