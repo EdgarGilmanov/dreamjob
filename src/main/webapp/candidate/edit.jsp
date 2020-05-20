@@ -48,15 +48,11 @@
                         <label>Имя</label>
                         <input type="text" class="form-control" name="name" value="<%=can.getName()%>">
                         <label>Фотография</label>
-                        <sp
+                        <div class="ui-icon"></div>
                         <img src="${pageContext.servletContext.contextPath}/download?name=${can.getPhoto}" width="50px" height="50px"/>
+                        <input type="file" name="file">
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
                     </div>
-                    <form action="<%=request.getContextPath()%>/upload" method="post" enctype="multipart/form-data">
-                        <div class="checkbox">
-                            <input type="file" name="file" value="test">
-                            <button type="submit" class="btn btn-primary">Сохранить</button>
-                        </div>
-                    </form>
                 </form>
             </div>
         </div>
