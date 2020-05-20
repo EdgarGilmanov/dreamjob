@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="ru.job4j.dream.store.MemStore" %>
 <%@ page import="ru.job4j.dream.model.Post" %>
+<%@ page import="java.util.Optional" %>
+<%@ page import="ru.job4j.dream.store.PsqlStore" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -25,7 +26,10 @@
     String id = request.getParameter("id");
     Post post = new Post(0, "");
     if (id != null) {
-        post = MemStore.instOf().findPostById(Integer.parseInt(id));
+        Optional<Post> op = PsqlStore.instOf().findPostById(Integer.parseInt(id));
+        if (op.isPresent()) {
+            post = op.get();
+        }
     }
 %>
 <div class="container pt-3">

@@ -160,7 +160,7 @@ public class PsqlStore implements Store {
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                String name = rs.getNString(2);
+                String name = rs.getString(2);
                 rsl = Optional.of(new Post(id, name));
             }
         } catch (Exception e) {
@@ -188,7 +188,7 @@ public class PsqlStore implements Store {
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                String name = rs.getNString(2);
+                String name = rs.getString(2);
                 rsl = Optional.of(new Candidate(id, name));
             }
         } catch (Exception e) {
