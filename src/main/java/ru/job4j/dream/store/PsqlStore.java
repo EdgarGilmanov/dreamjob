@@ -70,7 +70,7 @@ public class PsqlStore implements Store {
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
-                    candidates.add(new Candidate(it.getInt("id"), it.getString("name")));
+                    candidates.add(new Candidate(it.getInt("id"), it.getString("photoId"), it.getString("name")));
                 }
             }
         } catch (Exception e) {
@@ -188,8 +188,9 @@ public class PsqlStore implements Store {
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                String name = rs.getString(2);
-                rsl = Optional.of(new Candidate(id, name));
+                String photoId = rs.getString(2);
+                String name = rs.getString(3);
+                rsl = Optional.of(new Candidate(id, photoId, name));
             }
         } catch (Exception e) {
             e.printStackTrace();

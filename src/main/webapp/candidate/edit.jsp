@@ -24,7 +24,7 @@
 <body>
 <%
     String id = request.getParameter("id");
-    Candidate can = new Candidate(0, "");
+    Candidate can = new Candidate(0, "", "");
     if (id != null) {
         Optional<Candidate> op = PsqlStore.instOf().findCandidateById(Integer.parseInt(id));
         if (op.isPresent()) {
@@ -47,8 +47,16 @@
                     <div class="form-group">
                         <label>Имя</label>
                         <input type="text" class="form-control" name="name" value="<%=can.getName()%>">
+                        <label>Фотография</label>
+                        <sp
+                        <img src="${pageContext.servletContext.contextPath}/download?name=${can.getPhoto}" width="50px" height="50px"/>
                     </div>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <form action="<%=request.getContextPath()%>/upload" method="post" enctype="multipart/form-data">
+                        <div class="checkbox">
+                            <input type="file" name="file" value="test">
+                            <button type="submit" class="btn btn-primary">Сохранить</button>
+                        </div>
+                    </form>
                 </form>
             </div>
         </div>
