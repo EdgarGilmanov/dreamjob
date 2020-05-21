@@ -34,6 +34,16 @@
     <servlet-class>ru.job4j.dream.servlets.AuthServlet</servlet-class>
   </servlet>
 
+  <filter>
+    <filter-name>AuthFilter</filter-name>
+    <filter-class>ru.job4j.dream.filter.AuthFilter</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>AuthFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+  </filter-mapping>
+
   <servlet-mapping>
     <servlet-name>AuthServlet</servlet-name>
     <url-pattern>/auth.do</url-pattern>
