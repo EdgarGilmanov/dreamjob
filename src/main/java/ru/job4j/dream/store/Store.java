@@ -1,5 +1,8 @@
 package ru.job4j.dream.store;
 
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
 import ru.job4j.dream.model.User;
@@ -7,6 +10,9 @@ import ru.job4j.dream.model.User;
 import java.util.Collection;
 import java.util.Optional;
 
+
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(PsqlStore.class)
 public interface Store {
     Collection<Post> findAllPosts();
 
@@ -24,7 +30,7 @@ public interface Store {
 
     void save(User user);
 
-    Optional<Post> findUserById(int id);
+    Optional<User> findUserById(int id);
 
     boolean isExist(String email);
 

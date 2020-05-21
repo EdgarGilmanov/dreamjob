@@ -1,6 +1,9 @@
 package ru.job4j.dream.store;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
 import ru.job4j.dream.model.User;
@@ -12,6 +15,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.*;
 
+
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(PsqlStore.class)
 public class PsqlStore implements Store {
     private final BasicDataSource pool = new BasicDataSource();
 
@@ -231,8 +237,24 @@ public class PsqlStore implements Store {
     }
 
     @Override
-    public Optional<Post> findUserById(int id) {
-        return Optional.empty();
+    public Optional<User> findUserById(int id) {
+        Optional<User> rsl = Optional.empty();
+        try (Connection cnn = pool.getConnection();
+             PreparedStatement st = cnn.prepareStatement(
+                     "SELECT * FROM users WHERE id = ?"
+             )) {
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                String name = rs.getString(2);
+                String email = rs.getString(3);
+                String password = rs.getString(4);
+                rsl = Optional.of(new User(id, name, email, password));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rsl;
     }
 
     private void update(User user) {
