@@ -3,6 +3,8 @@ package ru.job4j.dream.store;
 import org.apache.commons.dbcp2.BasicDataSource;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
+import ru.job4j.dream.model.User;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.Connection;
@@ -11,7 +13,6 @@ import java.sql.ResultSet;
 import java.util.*;
 
 public class PsqlStore implements Store {
-
     private final BasicDataSource pool = new BasicDataSource();
 
     private PsqlStore() {
@@ -196,5 +197,76 @@ public class PsqlStore implements Store {
             e.printStackTrace();
         }
         return rsl;
+    }
+
+    @Override
+    public Collection<User> findAllUsers() {
+        List<User> rsl = new ArrayList<>();
+        try (Connection cnn = pool.getConnection();
+             PreparedStatement st = cnn.prepareStatement(
+                     "SELECT * FROM users")) {
+            ResultSet rs = st.executeQuery();
+
+            while (rs.next()) {
+                int id = Integer.parseInt(rs.getString(1));
+                String name = rs.getString(2);
+                String email = rs.getString(3);
+                String password = rs.getString(4);
+                rsl.add(new User(id, name, email, password));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rsl;
+
+    }
+
+    @Override
+    public void save(User user) {
+        if (user.getId() == 0) {
+            create(user);
+        } else {
+            update(user);
+        }
+    }
+
+    @Override
+    public Optional<Post> findUserById(int id) {
+        return Optional.empty();
+    }
+
+    private void update(User user) {
+        try (Connection cnn = pool.getConnection();
+             PreparedStatement st = cnn.prepareStatement(
+                     "UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?"
+             )) {
+            st.setString(1, user.getName());
+            st.setString(2, user.getEmail());
+            st.setString(3, user.getPassword());
+            st.setInt(4, user.getId());
+            st.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private User create(User user) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement(
+                     "INSERT INTO users(name, email, password) VALUES (?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS)
+        ) {
+            ps.setString(1, user.getName());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPassword());
+            ps.executeUpdate();
+            try (ResultSet id = ps.getGeneratedKeys()) {
+                if (id.next()) {
+                    user.setId(id.getInt(1));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 }
