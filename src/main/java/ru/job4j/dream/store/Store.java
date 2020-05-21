@@ -26,4 +26,8 @@ public interface Store {
 
     Optional<Post> findUserById(int id);
 
+    boolean isExist(String email);
+
+    boolean isExist(String email, String password);
+
 }

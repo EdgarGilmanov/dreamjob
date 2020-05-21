@@ -269,4 +269,37 @@ public class PsqlStore implements Store {
         }
         return user;
     }
+
+    @Override
+    public boolean isExist(String email) {
+        try (Connection cnn = pool.getConnection();
+             PreparedStatement st = cnn.prepareStatement(
+                     "SELECT * FROM users WHERE email = ?")) {
+            st.setString(1, email);
+            ResultSet set = st.executeQuery();
+            if (set.next()) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isExist(String email, String password) {
+        try (Connection cnn = pool.getConnection();
+             PreparedStatement st = cnn.prepareStatement(
+                     "SELECT * FROM users WHERE email = ? AND password = ?")) {
+            st.setString(1, email);
+            st.setString(2, password);
+            ResultSet set = st.executeQuery();
+            if (set.next()) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
