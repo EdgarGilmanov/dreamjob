@@ -50,6 +50,17 @@
     <servlet-class>ru.job4j.dream.servlets.AuthServlet</servlet-class>
   </servlet>
 
+  <servlet>
+    <servlet-name>GreetingServlet</servlet-name>
+    <servlet-class>ru.job4j.dream.servlets.GreetingServlet</servlet-class>
+  </servlet>
+
+
+  <servlet-mapping>
+    <servlet-name>GreetingServlet</servlet-name>
+    <url-pattern>/greet</url-pattern>
+  </servlet-mapping>
+
 
   <servlet-mapping>
     <servlet-name>RegServlet</servlet-name>
