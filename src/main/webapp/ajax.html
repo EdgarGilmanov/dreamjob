@@ -11,15 +11,13 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
 
 <script>
-    const name = JSON.stringify('name=' + $('#exampleInputEmail1').val());
+    //const name = JSON.stringify('name=' + $('#exampleInputEmail1').val());
     function sendGreeting() {
         $.ajax({
             type: 'GET',
             url: 'http://localhost:8080/dreamjob/greet',
-            dataType: 'json',
-            data: {
-                o : name
-            }
+            data: 'name=' + $('#exampleInputEmail1').val(),
+            dataType: 'text'
         }).done(function(data) {
             $('#label tr:last').after('<h1>' +data+' </h1>');
         }).fail(function(err){

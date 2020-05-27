@@ -96,4 +96,9 @@ public class ValidateStore implements Store {
         }
         return false;
     }
+
+    @Override
+    public String findPhotoById(String id) {
+        return null;
+    }
 }

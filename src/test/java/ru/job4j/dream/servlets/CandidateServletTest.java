@@ -27,8 +27,8 @@ public class CandidateServletTest {
         Mockito.when(PsqlStore.instOf()).thenReturn(validate);
         HttpServletRequest req = Mockito.mock(HttpServletRequest.class);
         HttpServletResponse resp = Mockito.mock(HttpServletResponse.class);
-        Mockito.when(req.getParameter("file")).thenReturn("TestMock");
+        Mockito.when(req.getParameter("file")).thenReturn("23");
         new CandidateServlet().doPost(req, resp);
-        assertThat(validate.findAllCandidates().iterator().next().getPhoto(), is("TestMock"));
+        assertThat(validate.findAllCandidates().iterator().next().getPhotoId(), is("23"));
     }
 }

@@ -4,10 +4,10 @@ import java.util.Objects;
 
 public class Candidate {
     private int id;
-    private String photoId;
+    private int photoId;
     private String name;
 
-    public Candidate(int id, String photoId,String name) {
+    public Candidate(int id, int photoId, String name) {
         this.id = id;
         this.photoId = photoId;
         this.name = name;
@@ -15,10 +15,6 @@ public class Candidate {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -29,8 +25,16 @@ public class Candidate {
         this.name = name;
     }
 
-    public String getPhoto() {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getPhotoId() {
         return photoId;
+    }
+
+    public void setPhotoId(int photoId) {
+        this.photoId = photoId;
     }
 
     @Override

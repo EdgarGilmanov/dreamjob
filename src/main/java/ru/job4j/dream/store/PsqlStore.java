@@ -1,9 +1,6 @@
 package ru.job4j.dream.store;
 
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
 import ru.job4j.dream.model.User;
@@ -16,8 +13,6 @@ import java.sql.ResultSet;
 import java.util.*;
 
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(PsqlStore.class)
 public class PsqlStore implements Store {
     private final BasicDataSource pool = new BasicDataSource();
 
@@ -77,7 +72,7 @@ public class PsqlStore implements Store {
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
-                    candidates.add(new Candidate(it.getInt("id"), it.getString("photoId"), it.getString("name")));
+                    candidates.add(new Candidate(it.getInt("id"), it.getInt("photo_id"), it.getString("name")));
                 }
             }
         } catch (Exception e) {
@@ -195,7 +190,7 @@ public class PsqlStore implements Store {
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                String photoId = rs.getString(2);
+                int photoId = rs.getInt(2);
                 String name = rs.getString(3);
                 rsl = Optional.of(new Candidate(id, photoId, name));
             }
@@ -323,5 +318,21 @@ public class PsqlStore implements Store {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public String findPhotoById(String id) {
+        try (Connection cnn = pool.getConnection();
+             PreparedStatement st = cnn.prepareStatement(
+                     "SELECT name FROM photo WHERE id = ?")) {
+            st.setInt(1, Integer.parseInt(id));
+            ResultSet ph = st.executeQuery();
+            if (ph.next()) {
+                return ph.getString(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

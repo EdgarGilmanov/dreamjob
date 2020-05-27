@@ -39,7 +39,7 @@
                     <c:forEach items="${candidates}" var="candidate">
                         <tr>
                             <td>
-                                <img src="${pageContext.servletContext.contextPath}/download?name=${candidate.getPhoto}" width="50px" height="50px"/>
+                                <img src='<c:url value="/download?photoId=${candidate.photoId}"/>' width="70px" height="70px"/>
                                 <c:out value="${candidate.name}"/>
                                 <a href='<c:url value="/candidate/edit.jsp?id=${candidate.id}"/>'>
                                     <i class="fa fa-edit mr-3"></i>

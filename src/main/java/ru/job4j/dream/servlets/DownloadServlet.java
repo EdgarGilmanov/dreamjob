@@ -1,5 +1,7 @@
 package ru.job4j.dream.servlets;
 
+import ru.job4j.dream.store.PsqlStore;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +13,8 @@ import java.io.IOException;
 public class DownloadServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String name = req.getParameter("name");
+        String id = req.getParameter("photoId");
+        String name = PsqlStore.instOf().findPhotoById(id);
         resp.setContentType("name=" + name);
         resp.setContentType("image/png");
         resp.setHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");

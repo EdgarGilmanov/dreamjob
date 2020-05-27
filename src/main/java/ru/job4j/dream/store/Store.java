@@ -36,4 +36,5 @@ public interface Store {
 
     boolean isExist(String email, String password);
 
+    String findPhotoById(String id);
 }

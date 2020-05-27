@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="ru.job4j.dream.model.Candidate" %>
 <%@ page import="ru.job4j.dream.store.PsqlStore" %>
@@ -24,7 +25,7 @@
 <body>
 <%
     String id = request.getParameter("id");
-    Candidate can = new Candidate(0, "", "");
+    Candidate can = new Candidate(0, 0, "");
     if (id != null) {
         Optional<Candidate> op = PsqlStore.instOf().findCandidateById(Integer.parseInt(id));
         if (op.isPresent()) {
@@ -49,7 +50,7 @@
                         <input type="text" class="form-control" name="name" value="<%=can.getName()%>">
                         <label>Фотография</label>
                         <div class="ui-icon"></div>
-                        <img src="${pageContext.servletContext.contextPath}/download?name=${can.getPhoto}" width="50px" height="50px"/>
+                        <img src='<c:url value="/download?photoId=<%=can.getPhotoId()%>>" />' width="70px" height="70px"/>
                         <input type="file" name="file">
                         <button type="submit" class="btn btn-primary">Сохранить</button>
                     </div>
