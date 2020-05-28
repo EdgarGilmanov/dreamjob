@@ -13,7 +13,8 @@ public class GreetingServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/plain");
         resp.setCharacterEncoding("UTF-8");
-        String name = req.getParameter("name");
+        //String name = req.getParameter("name");
+        String name = req.getParameter("text");
         PrintWriter writer = new PrintWriter(resp.getOutputStream());
         writer.println("Nice to meet you, " + name);
         writer.flush();
