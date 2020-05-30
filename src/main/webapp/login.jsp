@@ -18,6 +18,19 @@
 
     <title>Работа мечты</title>
 </head>
+<script>
+    function validate() {
+        var inputs = document.getElementsByTagName('input');
+
+        for (var input of inputs) {
+            if (input.value == '') {
+                alert('Enter your email and password');
+                return false;
+            }
+        }
+        return true;
+    }
+</script>
 <body>
 <div class="container pt-3">
 
@@ -36,7 +49,7 @@
                         <label>Пароль</label>
                         <input type="text" class="form-control" name="password">
                     </div>
-                    <button type="submit" class="btn btn-primary">Войти</button>
+                    <button type="submit" onclick="validate()" class="btn btn-primary">Войти</button>
                 </form>
             </div>
         </div>

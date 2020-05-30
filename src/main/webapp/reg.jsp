@@ -15,29 +15,80 @@
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
 
-    <title>Работа мечты</title>
+    <title>Dream Job</title>
 </head>
-<body>
+<script>
+    function getCities() {
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:8080/dreamjob/reg?reg=false',
+            data: 'get=cities',
+        }).done(function (data) {
+            var cities = data.split("#");
+            for (var i = 0; i < cities.length - 1; i++) {
+                var city = cities[i];
+                var option = new Option(city, city);
+                select.append(option);
+            }
+        }).fail(function () {
+            alert("Something went wrong");
+        });
+    }
+</script>
+
+<body onload="getCities()">
+<script>
+    function validate() {
+        var name = document.getElementById("name");
+        var email = document.getElementById("email");
+        var password = document.getElementById("password");
+
+        if(!name.value) {
+            name.style.border = "2px solid red";
+            $('form').submit(function() {
+                return false;
+            });
+        }
+        if(!email.value) {
+            email.style.border = "2px solid red";
+            name.style.border = "2px solid red";
+            $('form').submit(function() {
+                return false;
+            });
+        }
+        if(!password.value) {
+            password.style.border = "2px solid red";
+            name.style.border = "2px solid red";
+            $('form').submit(function() {
+                return false;
+            });
+        }
+    }
+</script>
 <div class="container pt-3">
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Регистрация
+                Registration
             </div>
             <div class="card-body">
-                <form action="<%=request.getContextPath()%>/reg" method="post">
+                <form action="<%=request.getContextPath()%>/reg?get=registratio" method="post"  >
                     <div class="form-group">
-                        <label>Имя</label>
-                        <input type="text" class="form-control" name="name">
-                        <label>Почта</label>
-                        <input type="text" class="form-control" name="email">
-                        <label>Пароль</label>
-                        <input type="text" class="form-control" name="password">
+                        <label>Name</label>
+                        <input type="text" class="form-control" name="name" id="name">
+                        <label>Email</label>
+                        <input type="text" class="form-control" name="email" id="email">
+                        <label>Password</label>
+                        <input type="text" class="form-control" name="password" id="password">
+                        <label>City</label>
+                        <select id="select" class="form-control" name="city"> </select>
+                        <p class="error-msg"></p>
                     </div>
                     <div class="form-group">
                     </div>
-                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                    <button type="submit" onclick="validate()" class="btn btn-primary">Sign Up</button>
                 </form>
             </div>
         </div>

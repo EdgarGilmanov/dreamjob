@@ -5,6 +5,7 @@ import java.util.Objects;
 public class Candidate {
     private int id;
     private int photoId;
+    private int cityId;
     private String name;
 
     public Candidate(int id, int photoId, String name) {
@@ -35,6 +36,14 @@ public class Candidate {
 
     public void setPhotoId(int photoId) {
         this.photoId = photoId;
+    }
+
+    public int getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
     }
 
     @Override

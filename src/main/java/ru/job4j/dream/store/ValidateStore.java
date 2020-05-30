@@ -1,4 +1,4 @@
-package ru.job4j.dream.servlets;
+package ru.job4j.dream.store;
 
 import ru.job4j.dream.model.Candidate;
 import ru.job4j.dream.model.Post;
@@ -100,5 +100,20 @@ public class ValidateStore implements Store {
     @Override
     public String findPhotoById(String id) {
         return null;
+    }
+
+    @Override
+    public String getCityById(String id) {
+        return null;
+    }
+
+    @Override
+    public List<String> getAllCities() {
+        return null;
+    }
+
+    @Override
+    public int findCityByName(String city) {
+        return 0;
     }
 }

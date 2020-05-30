@@ -16,6 +16,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import ru.job4j.dream.store.PsqlStore;
 import ru.job4j.dream.store.Store;
+import ru.job4j.dream.store.ValidateStore;
 
 
 @RunWith(PowerMockRunner.class)

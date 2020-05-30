@@ -7,12 +7,14 @@ public class User {
     private String name;
     private String email;
     private String password;
+    private int cityId;
 
-    public User(int id, String name, String email, String password) {
+    public User(int id, String name, String email, String password, int cityId) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
+        this.cityId = cityId;
     }
 
     public User() {
@@ -48,6 +50,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
     }
 
     @Override

@@ -8,6 +8,7 @@ import ru.job4j.dream.model.Post;
 import ru.job4j.dream.model.User;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -37,4 +38,10 @@ public interface Store {
     boolean isExist(String email, String password);
 
     String findPhotoById(String id);
+
+    String getCityById(String id);
+
+    List<String> getAllCities();
+
+    int findCityByName(String city);
 }

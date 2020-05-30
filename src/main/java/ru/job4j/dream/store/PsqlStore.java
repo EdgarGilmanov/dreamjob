@@ -213,7 +213,8 @@ public class PsqlStore implements Store {
                 String name = rs.getString(2);
                 String email = rs.getString(3);
                 String password = rs.getString(4);
-                rsl.add(new User(id, name, email, password));
+                int cityId = rs.getInt(5);
+                rsl.add(new User(id, name, email, password, cityId));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -244,7 +245,8 @@ public class PsqlStore implements Store {
                 String name = rs.getString(2);
                 String email = rs.getString(3);
                 String password = rs.getString(4);
-                rsl = Optional.of(new User(id, name, email, password));
+                int cityId = rs.getInt(5);
+                rsl = Optional.of(new User(id, name, email, password, cityId));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -255,12 +257,13 @@ public class PsqlStore implements Store {
     private void update(User user) {
         try (Connection cnn = pool.getConnection();
              PreparedStatement st = cnn.prepareStatement(
-                     "UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?"
+                     "UPDATE users SET name = ?, email = ?, password = ?, city_id = ? WHERE id = ?"
              )) {
             st.setString(1, user.getName());
             st.setString(2, user.getEmail());
             st.setString(3, user.getPassword());
-            st.setInt(4, user.getId());
+            st.setInt(4, user.getCityId());
+            st.setInt(5, user.getId());
             st.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -270,11 +273,12 @@ public class PsqlStore implements Store {
     private User create(User user) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
-                     "INSERT INTO users(name, email, password) VALUES (?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS)
+                     "INSERT INTO users(name, email, password, city_id) VALUES (?, ?, ?, ?)", PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getPassword());
+            ps.setInt(4, user.getCityId());
             ps.executeUpdate();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
@@ -335,4 +339,42 @@ public class PsqlStore implements Store {
         }
         return null;
     }
+
+    @Override
+    public String getCityById(String id) {
+        return null;
+    }
+
+    @Override
+    public List<String> getAllCities() {
+        List<String> rsl = new ArrayList<>();
+        try (Connection cnn = pool.getConnection();
+            PreparedStatement st = cnn.prepareStatement(
+                    "SELECT name FROM city")) {
+            ResultSet set = st.executeQuery();
+            while (set.next()) {
+                rsl.add(set.getString(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rsl;
+    }
+
+    @Override
+    public int findCityByName(String city) {
+        try (Connection cnn = pool.getConnection();
+            PreparedStatement st = cnn.prepareStatement(
+                    "SELECT id FROM city WHERE name = ?")) {
+            st.setString(1, city.trim());
+            ResultSet id = st.executeQuery();
+            if (id.next()) {
+                return id.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 }
